@@ -3,8 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const repos = require('./repos.json');
 
-const host = process.env.HOST || 'localhost';
-const port = process.env.PORT || 4000;
+
 
 const handler = (req, res) => {
   const url = req.url;
@@ -87,16 +86,11 @@ const handler = (req, res) => {
     res.writeHead(404, {'content-type': 'text/plain'});
     res.end('404 server error');
   }
-}
+};
 
 const server = http.createServer(handler);
-
-server.listen(port);
-
-console.log('server running on: http://' + host + ':' + port);
 
 module.exports = {
   server: server,
   handler: handler
-}
-
+};

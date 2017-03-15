@@ -6,7 +6,7 @@ const handler = {};
 
 
 handler.serveLanding = (req, res) => {
-  fs.readFile(path.join(__dirname, 'fac.html'), 'utf8', (err, file) => {
+  fs.readFile(path.join(__dirname, '..', 'public' , 'dwyl.html'), 'utf8', (err, file) => {
     /* istanbul ignore if */
     if (err) {
       res.writeHead(500, {'content-type': 'text/plain'});
@@ -19,8 +19,7 @@ handler.serveLanding = (req, res) => {
 };
 
 handler.serveFac =  (req, res) => {
-
-  fs.readFile(path.join(__dirname, 'fac.html'), 'utf8', (err, file) => {
+  fs.readFile(path.join(__dirname, '..', 'public', 'fac.html'), 'utf8', (err, file) => {
     /* istanbul ignore if */
     if (err) {
       res.writeHead(500, {'content-type': 'text/plain'});
@@ -30,7 +29,6 @@ handler.serveFac =  (req, res) => {
       res.end(file);
     }
   });
-
 };
 
 handler.serveDwyl =  (req, res) => {
@@ -49,13 +47,23 @@ handler.serveDwyl =  (req, res) => {
 };
 
 handler.serveAssets =  (req, res) => {
-  fs.readFile(path.join(__dirname, 'stylesheet.css'), 'utf8', (err, file) => {
+  const url = req.url;
+  const extension = path.extname(url);
+
+  const extensionType = {
+    '.css': 'text/css',
+    '.js': 'application/javascript'
+  };
+
+  console.log('url', url);
+
+  fs.readFile(path.join(__dirname, '..', 'public' , url), 'utf8', (err, file) => {
     /* istanbul ignore if */
     if (err) {
       res.writeHead(500, {'content-type': 'text/plain'});
       res.end('server error');
     } else {
-      res.writeHead(200, {'content-type': 'text/css'});
+      res.writeHead(200, {'content-type': extensionType[extension] });
       res.end(file);
     }
   });
